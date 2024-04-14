@@ -1,7 +1,7 @@
 import supabase from '@/lib/supabase'
 import { queryOptions } from '@tanstack/react-query'
 
-export const getSessionApi = () =>
+export const getSessionQuery = () =>
   queryOptions({
     queryKey: ['session'],
     async queryFn() {

@@ -1,9 +1,8 @@
-import { SafeAreaView, Text } from 'react-native'
 import { QueryClient, QueryClientProvider, useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Slot, SplashScreen, useRouter } from 'expo-router'
 import supabase from '@/lib/supabase'
-import { getSessionApi } from '@/api/sessionApi'
+import { getSessionQuery } from '@/api/sessionApi'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
@@ -20,7 +19,7 @@ export default function QueryWrapper() {
 
 function RootLayout() {
   const queryClient = useQueryClient()
-  const { data: session } = useQuery(getSessionApi())
+  const { data: session } = useQuery(getSessionQuery())
   const router = useRouter()
 
   useEffect(() => {
@@ -31,7 +30,7 @@ function RootLayout() {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange(() => {
-      queryClient.invalidateQueries({ queryKey: getSessionApi().queryKey })
+      queryClient.invalidateQueries({ queryKey: getSessionQuery().queryKey })
     })
   }, [])
 
