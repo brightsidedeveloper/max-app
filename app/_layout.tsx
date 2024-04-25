@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import { Slot, SplashScreen, useRouter } from 'expo-router'
 import supabase from '@/lib/supabase'
 import { getSessionQuery } from '@/api/sessionApi'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { useColorScheme } from 'react-native'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
@@ -10,9 +12,12 @@ SplashScreen.preventAutoHideAsync()
 const queryClient = new QueryClient()
 
 export default function QueryWrapper() {
+  const isDarkMode = useColorScheme() === 'dark'
   return (
     <QueryClientProvider client={queryClient}>
-      <RootLayout />
+      <ThemeProvider value={isDarkMode ? DarkTheme : DefaultTheme}>
+        <RootLayout />
+      </ThemeProvider>
     </QueryClientProvider>
   )
 }
